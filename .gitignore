@@ -1,0 +1,34 @@
+# Build output
+*.exe
+*.obj
+*.o
+*.ilk
+*.pdb
+*.idb
+*.ipch
+*.pch
+*.log
+*.tlog
+Debug/
+Release/
+x64/
+x86/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+
+# VS Code (keep shared config, ignore local state)
+.vscode/*
+!.vscode/tasks.json
+!.vscode/c_cpp_properties.json
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
