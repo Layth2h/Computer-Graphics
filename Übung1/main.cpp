@@ -227,7 +227,9 @@ void BresenhamLine2(Point p1, Point p2, Color c)
 void BresenhamCircle(Point p, int r, Color c)
 {
 	// mid-point
-	setPoint(p, c);
+	setPoint(Point(p), c);
+
+	// ...
 
 	// ...
 }
@@ -249,10 +251,10 @@ void display(void)
 	// - Try    here different parameter settings, i.e. start point, end point, mid-point, radius.
 	//
 
-	Point p1(-10, 20);			  // first point of the line, aka start point
-	Point p2(-10, 10);			  // last  point of the line, aka end   point
-	Color cRed(1, 0, 0);		  // color       of the line
-	BresenhamLine2(p1, p2, cRed); // plot the line
+	Point p1(-10, 20);	 // first point of the line, aka start point
+	Point p2(-10, 10);	 // last  point of the line, aka end   point
+	Color cRed(1, 0, 0); // color       of the line
+	// BresenhamLine2(p1, p2, cRed); // plot the line
 
 	int r = 17;					  // radius    of the circle
 	Point p(-3, -5);			  // mid-point of the circle
