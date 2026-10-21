@@ -217,9 +217,24 @@ void BresenhamLine2(Point p1, Point p2, Color c)
 	setPoint(Point(p2), c);
 }
 
+// ...
+// implemented by my to make the plotting easier
+void plot8(int xm, int ym, int x, int y, Color c)
+{
+	setPoint(Point(xm + x, ym + y), c);
+	setPoint(Point(xm - x, ym + y), c);
+	setPoint(Point(xm + x, ym - y), c);
+	setPoint(Point(xm - x, ym - y), c);
+	setPoint(Point(xm + y, ym + x), c);
+	setPoint(Point(xm - y, ym + x), c);
+	setPoint(Point(xm + y, ym - x), c);
+	setPoint(Point(xm - y, ym - x), c);
+}
+
+// ...
+
 //
 // Assignment 1 Exercise 2
-//
 // Implement this function to draw a circle with radius r around mid-point p in color c using Besenham's algorithm.
 // - Use setPoint to plot individual points/pixels.
 // - Also plot the mid-point.
@@ -230,6 +245,30 @@ void BresenhamCircle(Point p, int r, Color c)
 	setPoint(Point(p), c);
 
 	// ...
+	int x, y, d, dSE, dE;
+	x = 0;
+	y = r;
+	d = 5 - 4 * r;
+
+	plot8(p.x, p.y, x, y, c);
+
+	while (y > x)
+	{
+		if (d >= 0)
+		{
+			dSE = 4 * (2 * (x - y) + 5);
+			d += dSE;
+			x++;
+			y--;
+		}
+		else
+		{
+			dE = 4 * (2 * x + 3);
+			d += dE;
+			x++;
+		}
+		plot8(p.x, p.y, x, y, c);
+	}
 
 	// ...
 }
