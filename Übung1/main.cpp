@@ -124,41 +124,155 @@ void setPoint(Point p, Color c = Color(0, 0, 0))
 // Implement this function to draw a line from p1 to p2 in color c using Besenham's algorithm.
 // - Use setPoint to plot individual points/pixels.
 //
-void BresenhamLine(Point p1, Point p2, Color c)
-{
-	// first point
-	setPoint(Point(p1), c);
-	;
+// void BresenhamLine(Point p1, Point p2, Color c)
+// {
+// 	// first point
+// 	setPoint(Point(p1), c);
 
-	// ...
-	int x, y, dx, dy, d, dNE, dE;
-	x = p1.x;
-	y = p1.y;
-	dx = p2.x - x;
-	dy = p2.y - y;
-	dNE = 2 * (dy - dx);
-	dE = 2 * dy;
-	d = 2 * dy - dx;
+// 	// ...
+// 	int x, y, dx, dy, d, dNE, dE;
+// 	x = p1.x;
+// 	y = p1.y;
+// 	dx = p2.x - x;
+// 	dy = p2.y - y;
+// 	dNE = 2 * (dy - dx);
+// 	dE = 2 * dy;
+// 	d = 2 * dy - dx;
+
+// 	while (x < p2.x)
+// 	{
+// 		if (d >= 0) // NE
+// 		{
+// 			d += dNE;
+// 			x++;
+// 			y++;
+// 		}
+// 		else // E
+// 		{
+// 			d += dE;
+// 			x++;
+// 		}
+// 		setPoint(Point(x, y), c);
+// 	}
+
+// 	// ...
+// 	// last point
+// 	setPoint(Point(p2), c);
+// }
+
+void BresenhamLineFirstOctant(Point p1, Point p2, Color c)
+{
+	int dx = p2.x - p1.x;
+	int dy = p2.y - p1.y;
+
+	int D = 2 * dy - dx;
+	int x = p1.x;
+	int y = p1.y;
+
+	setPoint(Point(x, y), c);
 
 	while (x < p2.x)
 	{
-		if (d >= 0) // NE
+		x++;
+		if (D > 0)
 		{
-			d += dNE;
-			x++;
 			y++;
+			D += (2 * (dy - dx));
 		}
-		else // E
+		else
 		{
-			d += dE;
-			x++;
+			D += 2 * dy;
 		}
 		setPoint(Point(x, y), c);
 	}
+}
 
-	// ...
-	// last point
-	setPoint(Point(p2), c);
+void BresenhamLineLow(Point p1, Point p2, Color c)
+{
+	int dx = p2.x - p1.x;
+	int dy = p2.y - p1.y;
+
+	int yi = 1;
+
+	if (dy < 0)
+	{
+		yi = -1;
+		dy = -dy;
+	}
+
+	int D = 2 * dy - dx;
+	int x = p1.x;
+	int y = p1.y;
+
+	setPoint(Point(x, y), c);
+
+	while (x < p2.x)
+	{
+		x++;
+		if (D > 0)
+		{
+			y += yi;
+			D += (2 * (dy - dx));
+		}
+		else
+		{
+			D += 2 * dy;
+		}
+		setPoint(Point(x, y), c);
+	}
+}
+
+void BresenhamLineHigh(Point p1, Point p2, Color c)
+{
+	int dx = p2.x - p1.x;
+	int dy = p2.y - p1.y;
+
+	int xi = 1;
+
+	if (dx < 0)
+	{
+		xi = -1;
+		dx = -dx;
+	}
+
+	int D = (2 * dx) - dy;
+	int x = p1.x;
+	int y = p1.y;
+
+	setPoint(Point(x, y), c);
+
+	while (y < p2.y)
+	{
+		y++;
+		if (D > 0)
+		{
+			x += xi;
+			D += (2 * (dx - dy));
+		}
+		else
+		{
+			D += 2 * dx;
+		}
+		setPoint(Point(x, y), c);
+	}
+}
+
+void plotLine(Point p1, Point p2, Color c)
+{
+	if (abs(p2.y - p1.y) < abs(p2.x - p1.x))
+	{
+		if (p1.x > p2.x)
+			BresenhamLineLow(p2, p1, c);
+		else
+			BresenhamLineLow(p1, p2, c);
+	}
+	else
+	{
+		if (p1.y > p2.y)
+			BresenhamLineHigh(p2, p1, c);
+		else
+			BresenhamLineHigh(p1, p2, c);
+	}
 }
 
 // Assignment 1 Exercise 1
@@ -267,7 +381,7 @@ void BresenhamCircle(Point p, int r, Color c)
 			d += dE;
 			x++;
 		}
-		plot8(p.x, p.y, x, y, c);
+		plot8(p.x, p.y, x, y, Color(c.r + 0.3f, c.g + 0.2f, c.b - 0.3f));
 	}
 
 	// ...
@@ -290,12 +404,29 @@ void display(void)
 	// - Try    here different parameter settings, i.e. start point, end point, mid-point, radius.
 	//
 
-	Point p1(-10, 20);	 // first point of the line, aka start point
-	Point p2(-10, 10);	 // last  point of the line, aka end   point
-	Color cRed(1, 0, 0); // color       of the line
-	// BresenhamLine2(p1, p2, cRed); // plot the line
+	Point p1(0, 0);
+	Point p2(2, 5);
+	Point p4(-2, 5);
+	Point p3(2, -5);
+	Point p5(-2, -5);
+	Color cRed(1, 0, 0);
 
-	int r = 17;					  // radius    of the circle
+	BresenhamLineFirstOctant(p1, p2, cRed);
+	BresenhamLineLow(p1, p3, cRed);
+	BresenhamLineLow(p1, p5, cRed);
+
+	BresenhamLineHigh(p1, p2, cRed);
+	BresenhamLineHigh(p1, p4, cRed);
+
+	plotLine(p1, p3, cRed);
+	plotLine(p1, p5, cRed);
+
+	plotLine(p1, p2, cRed);
+	plotLine(p1, p4, cRed);
+
+	plotLine(p1, Point(-1, 20), cRed);
+
+	int r = 15;					  // radius    of the circle
 	Point p(-3, -5);			  // mid-point of the circle
 	Color cBlue(0, 0, 1);		  // color     of the circle
 	BresenhamCircle(p, r, cBlue); // plot the circle

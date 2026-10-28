@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Uebung2 (g++)",
+            "type": "shell",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "args": [
+                "-g",
+                "-w",
+                "-DGLUT_DISABLE_ATEXIT_HACK",
+                "main.cpp",
+                "Planet.cpp",
+                "Color.cpp",
+                "Matrix.cpp",
+                "cg_math.cpp",
+                "-o",
+                "main.exe",
+                "-lfreeglut",
+                "-lopengl32",
+                "-lglu32"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": { "PATH": "C:\\msys64\\ucrt64\\bin;${env:PATH}" }
+            },
+            "problemMatcher": ["$gcc"],
+            "group": { "kind": "build", "isDefault": true }
+        },
+        {
+            "label": "Run Uebung2",
+            "type": "shell",
+            "command": ".\\main.exe",
+            "dependsOn": "Build Uebung2 (g++)",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": { "PATH": "C:\\msys64\\ucrt64\\bin;${env:PATH}" }
+            },
+            "problemMatcher": [],
+            "group": { "kind": "test", "isDefault": true }
+        }
+    ]
+}

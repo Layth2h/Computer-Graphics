@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "MinGW-w64 (MSYS2 UCRT64)",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "GLUT_DISABLE_ATEXIT_HACK"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerPath": "C:/msys64/ucrt64/bin/g++.exe"
+        }
+    ],
+    "version": 4
+}
